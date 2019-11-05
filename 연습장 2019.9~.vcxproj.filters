@@ -57,5 +57,16 @@
     <ClCompile Include="hanoi_StackRepeat.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="hanoiqueue.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="HANOI_TOWER.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="hanoiqueue.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
