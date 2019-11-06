@@ -1,35 +1,35 @@
 #include "hanoiqueue.h"
 #include <iostream>
 
-hanoi::hanoi(int size){
+hanoi::hanoi(int size) {
 	numof = 1;
 	hanoi_size = size;
 	hanoi_page = (hanoi_size + 1) * 3;
-	hanoi_state = (int*)calloc(1*hanoi_page, sizeof(int));     //memory assign(hanoi tower A,B,C)
-	                                                           //calloc ( page * ( tower * ( size +1 ) ) )
+	hanoi_state = (int*)calloc(1 * hanoi_page, sizeof(int));     //memory assign(hanoi tower A,B,C)
+																 //calloc ( page * ( tower * ( size +1 ) ) )
 
-	for (int i = 1; i<=hanoi_size; i++) {                 //first hanoi tower state define
-		hanoi_state[i] = hanoi_size-i+1;
+	for (int i = 1; i <= hanoi_size; i++) {                 //first hanoi tower state define
+		hanoi_state[i] = hanoi_size - i + 1;
 	}
-	std::cout << "ÇÏ³ëÀÌ Å¾ Ã³À½ »óÅÂ" << std::endl;  //first state print
+	std::cout << "í•˜ë…¸ì´ íƒ‘ ì²˜ìŒ ìƒíƒœ" << std::endl;  //first state print
 	for (int u = 0; u < 3; u++) {
-		std::cout << u + 1 << "¹ø Å¾ ";
+		std::cout << u + 1 << "ë²ˆ íƒ‘ ";
 		for (int i = 1; i <= hanoi_size; i++) {
-			std::cout << hanoi_state[(hanoi_size+1)*u+i] << "  ";
+			std::cout << hanoi_state[(hanoi_size + 1)*u + i] << "  ";
 		}
-		std::cout<<std::endl;
+		std::cout << std::endl;
 	}
 }//0
 
 void hanoi::hanoisearch() {  //search goal state
-	int quenum=1;
-	std::cout << "start" <<std::endl;  // 0
+	int quenum = 1;
+	std::cout << "start" << std::endl;  // 0
 	while (1) {
 		hanoi_statewrite(quenum);
-		if (hanoicheck(quenum)==true)
-			break;  
+		if (hanoicheck(quenum) == true)
+			break;
 		quenum++;
-		std::cout << "loop w" << std::endl;
+		std::cout << "loop w" << quenum << std::endl;
 	}
 	hanoi_answer(quenum);
 }
@@ -37,29 +37,32 @@ void hanoi::hanoisearch() {  //search goal state
 bool hanoi::hanoicheck(int quenum) {    //goal state = tower A >> tower C
 										//if goal state = true
 	int ck = 0;
+	int to;
+	if (hanoi_size % 2 == 1)to = 1;
+	else to = 2;
 	for (int k = 0; k < hanoi_size + 1; k++) {
-		if (hanoi_state[hanoi_page * quenum +(hanoi_size + 1)*2+k]== hanoi_state[k])
+		if (hanoi_state[hanoi_page * quenum + (hanoi_size + 1)*to + k] == hanoi_state[k])
 			ck++;
 	}
-	if (ck != hanoi_size+1) return false;
+	if (ck != hanoi_size + 1) return false;
 	return true;
 }
 
 void hanoi::hanoi_statewrite(int quenum) {  //create next state and save next state
 
-	int q[3] = { 0 };  // Å¸¿öº° ¿ø¼Ò°¹¼ö
+	int q[3] = { 0 };  // íƒ€ì›Œë³„ ì›ì†Œê°¯ìˆ˜
 	int* c;            //buffer [3*hanoi_size+1]
 
-	c = (int*)calloc(sizeof(int), 3*(hanoi_size + 1)); // 
+	c = (int*)calloc(sizeof(int), 3 * (hanoi_size + 1)); // 
 	for (int h = 0; h <= hanoi_page; h++) {
 		c[h] = hanoi_state[((quenum - 1) * hanoi_page) + h];
 	}
 	/*
 	for (int h = 0; h < hanoi_page; h++) {
-		std::cout << c[h] << " ";
+	std::cout << c[h] << " ";
 	}
 	std::cout << std::endl; */
-	for (int y = 0; y < 3; y++) { //Å¾ÀÇ ³ôÀÌ ¼¼±â
+	for (int y = 0; y < 3; y++) { //íƒ‘ì˜ ë†’ì´ ì„¸ê¸°
 		int jump = (hanoi_size + 1) * y;
 		int k = 1;
 		while (k <= hanoi_size) {
@@ -70,18 +73,18 @@ void hanoi::hanoi_statewrite(int quenum) {  //create next state and save next st
 	}
 	// std::cout << 2 << std::endl;  0
 
-	for (int y = 0; y < 3; y++) {  // ºÀ¸¶´Ù ¿òÁ÷ÀÌ´Â °æ¿ì 
+	for (int y = 0; y < 3; y++) {  // ë´‰ë§ˆë‹¤ ì›€ì§ì´ëŠ” ê²½ìš° 
 		int jump = (hanoi_size + 1) * y;
 
-		if (q[y] != 0) { // ÇØ´ç ºÀÀÇ ¿ø¼Ò°¡ 0°³°¡ ¾Æ´Ï¸é
+		if (q[y] != 0) { // í•´ë‹¹ ë´‰ì˜ ì›ì†Œê°€ 0ê°œê°€ ì•„ë‹ˆë©´
 			write(c, numof, q, y);  // y=from 
 		}
 	}
 }
 
-void hanoi::write(int *buf,int n,int qq[3], int from) {   // check and move
+void hanoi::write(int *buf, int n, int qq[3], int from) {   // check and move
 	int one, two;
-	switch(from){  //define to
+	switch (from) {  //define to
 	case(0):
 		one = 1;
 		two = 2;
@@ -96,43 +99,43 @@ void hanoi::write(int *buf,int n,int qq[3], int from) {   // check and move
 		break;
 	}
 
-	if (qq[one] == 0 || buf[(hanoi_size+1)*from+qq[from]] < buf[(hanoi_size + 1) * one + qq[one]]) {  // from > one
-		numof++; // ÃÑ ÇÏ³ëÀÌ »óÅÂ ¼ö +1 
-		hanoi_state = (int*)realloc(hanoi_state, sizeof(int) * (numof*hanoi_page)); // ¸Ş¸ğ¸® È®Àå
+	if (qq[one] == 0 || buf[(hanoi_size + 1)*from + qq[from]] < buf[(hanoi_size + 1) * one + qq[one]]) {  // from > one
+		numof++; // ì´ í•˜ë…¸ì´ ìƒíƒœ ìˆ˜ +1 
+		hanoi_state = (int*)realloc(hanoi_state, sizeof(int) * (numof*hanoi_page)); // ë©”ëª¨ë¦¬ í™•ì¥
 		for (int wr = 0; wr < hanoi_page; wr++) {
 			hanoi_state[hanoi_page * (numof - 1) + wr] = buf[wr];
 		}
 		hanoi_state[hanoi_page * (numof - 1) + (hanoi_size + 1) * one + qq[one] + 1] = buf[(hanoi_size + 1) * from + qq[from]];
 		hanoi_state[hanoi_page * (numof - 1) + (hanoi_size + 1) * from + qq[from]] = 0;
 		for (int h = 0; h < hanoi_page; h++) {
-			std::cout << hanoi_state[hanoi_page * (numof - 1)+h] <<" ";
+			std::cout << hanoi_state[hanoi_page * (numof - 1) + h] << " ";
 		}
-		std::cout << std::endl; 
+		std::cout << std::endl;
 	}
-	if (qq[two] == 0|| buf[(hanoi_size + 1) * from + qq[from]] < buf[(hanoi_size + 1) * two + qq[two]]) {  // from > two
-		numof++; // ÃÑ ÇÏ³ëÀÌ »óÅÂ ¼ö +1 
-		hanoi_state = (int*)realloc(hanoi_state, sizeof(int) * (numof*hanoi_page)); // ¸Ş¸ğ¸® È®Àå
+	if (qq[two] == 0 || buf[(hanoi_size + 1) * from + qq[from]] < buf[(hanoi_size + 1) * two + qq[two]]) {  // from > two
+		numof++; // ì´ í•˜ë…¸ì´ ìƒíƒœ ìˆ˜ +1 
+		hanoi_state = (int*)realloc(hanoi_state, sizeof(int) * (numof*hanoi_page)); // ë©”ëª¨ë¦¬ í™•ì¥
 		for (int wr = 0; wr < hanoi_page; wr++) {
 			hanoi_state[hanoi_page * (numof - 1) + wr] = buf[wr];
 		}
 		hanoi_state[hanoi_page * (numof - 1) + (hanoi_size + 1) * two + qq[two] + 1] = buf[(hanoi_size + 1) * from + qq[from]];
 		hanoi_state[hanoi_page * (numof - 1) + (hanoi_size + 1) * from + qq[from]] = 0;
 		for (int h = 0; h < hanoi_page; h++) {
-			std::cout << hanoi_state[hanoi_page * (numof - 1)+h] <<" ";
+			std::cout << hanoi_state[hanoi_page * (numof - 1) + h] << " ";
 		}
-		std::cout << std::endl; 
+		std::cout << std::endl;
 	}
 }
 
 void hanoi::hanoi_answer(int quenum) {
-	std::cout << "ÇÏ³ëÀÌ Å¾ °á°ú" << std::endl;  //init state print
+	std::cout << "í•˜ë…¸ì´ íƒ‘ ê²°ê³¼ " << std::endl;  //init state print
 	for (int x = 0; x < hanoi_page; x++) {
 		std::cout << hanoi_state[hanoi_page * quenum + x] << " ";
 	}
 	std::cout << std::endl;
 
 	for (int u = 0; u < 3; u++) {
-		std::cout << u + 1 << "¹ø Å¾ ";
+		std::cout << u + 1 << "ë²ˆ íƒ‘ ";
 		for (int i = 1; i <= hanoi_size; i++) {
 			std::cout << hanoi_state[hanoi_page * quenum + (hanoi_size + 1) * u + i] << "  ";
 		}
