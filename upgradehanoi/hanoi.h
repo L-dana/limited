@@ -12,25 +12,30 @@ typedef struct hanoistr { //hanoi state node
 }hanoin;
 
 class upgradehanoi {
+
 private:
 	int quenum;
 	int hanoi_size;
 	int hanoi_page;
 	hanoin* start, * end, * buf, * ptr;
+
 public:
-	upgradehanoi(int size);
+	upgradehanoi(int size);  // setting
 
-	void hanoisort();
+	void hanoisort();     // core algorithem
 
-	void hanoiwrite(int quenum);
+	void hanoiwrite(int quenum);  // new state write
 
-	void generate(int ele[3], int from);
+	void generate(int ele[3], int from);  // node generate
 
-	bool pedigree( int* trans);
+	bool pedigree( int* trans);  // ancestor search
 
 	bool check(int quenum);  // goal = return true
 
-	void answer(int quenum);
+	void answer(int quenum);  // 마무리
+
+	void glist(int quenum);   // make g-list
+
 };
 /*class upgradehanoi {
 private:
