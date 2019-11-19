@@ -45,7 +45,7 @@ void upgradehanoi::hanoiwrite(int quenum) {
 
 	int element[3] = { 0 };
 	buf = start;
-	while (1) {  // ÇØ´ç ¹øÈ£ÀÇ ³ëµå¸¦ Ã£¾ÆÁÜ
+	while (1) {  // í•´ë‹¹ ë²ˆí˜¸ì˜ ë…¸ë“œë¥¼ ì°¾ì•„ì¤Œ
 		if (buf->stateindex == quenum) break;
 		else
 			buf = buf->nextnode;
@@ -54,7 +54,7 @@ void upgradehanoi::hanoiwrite(int quenum) {
 		cout << buf->hanoistate[x] << " ";
 	}
 	cout <<endl; //start node state
-	for (int y = 0; y < 3; y++) { //Å¾ÀÇ ³ôÀÌ ¼¼±â
+	for (int y = 0; y < 3; y++) { //íƒ‘ì˜ ë†’ì´ ì„¸ê¸°
 		int jump = (hanoi_size + 1) * y;
 		int k = 1;
 		while (k <= hanoi_size) {
@@ -101,8 +101,8 @@ void upgradehanoi::generate(int ele[3], int from) {
 		trans[jump * one + ele[one] + 1] = trans[jump * from + ele[from]];
 		trans[jump * from + ele[from]] = 0;  
 	
-		the = pedigree(trans);  // Á¶»ó ³ëµå Á¶»ç
-		if (the == false) {  // Á¶»ó³ëµå Áß °°Àº ³ëµå°¡ ¾ø´Ù¸é ptr¿¡ °ø°£À» ÇÒ´çÇØ ´ÙÀ½³ëµå ÀúÀå
+		the = pedigree(trans);  // ì¡°ìƒ ë…¸ë“œ ì¡°ì‚¬
+		if (the == false) {  // ì¡°ìƒë…¸ë“œ ì¤‘ ê°™ì€ ë…¸ë“œê°€ ì—†ë‹¤ë©´ ptrì— ê³µê°„ì„ í• ë‹¹í•´ ë‹¤ìŒë…¸ë“œ ì €ìž¥
 			ptr = (hanoin*)calloc(1, sizeof(hanoin));  //0
 			ptr->hanoistate = (int*)calloc(hanoi_page, sizeof(int));
 			//cout << ptr << " ---- " << trans <<endl;
@@ -129,7 +129,7 @@ void upgradehanoi::generate(int ele[3], int from) {
 		trans[jump * from + ele[from]] = 0;
 	
 		the = pedigree(trans);
-		if (the == false) {  // Á¶»ó³ëµå Áß °°Àº ³ëµå°¡ ¾ø´Ù¸é ptr¿¡ °ø°£À» ÇÒ´çÇØ ´ÙÀ½³ëµå ÀúÀå
+		if (the == false) {  // ì¡°ìƒë…¸ë“œ ì¤‘ ê°™ì€ ë…¸ë“œê°€ ì—†ë‹¤ë©´ ptrì— ê³µê°„ì„ í• ë‹¹í•´ ë‹¤ìŒë…¸ë“œ ì €ìž¥
 			ptr = (hanoin*)calloc(1, sizeof(hanoin));
 			ptr->hanoistate = (int*)calloc(hanoi_page, sizeof(int));//0
 			for (int z = 0; z < hanoi_page; z++) {
@@ -152,21 +152,21 @@ void upgradehanoi::generate(int ele[3], int from) {
 
 bool upgradehanoi::pedigree(int * translate) {
 
-	hanoin* trace=buf;  //ÀÓ½ÃÁÖ¼Òº¯¼ö
+	hanoin* trace=buf;  //ìž„ì‹œì£¼ì†Œë³€ìˆ˜
 	//cout << trace << " ---- " << buf <<endl;  0
-	int ch = 0;  //°°Àº°ÍÀÇ °³¼ö
+	int ch = 0;  //ê°™ì€ê²ƒì˜ ê°œìˆ˜
 	while (1) {
 		if (trace->ancestor == NULL)break;
 		trace = trace->ancestor;
 		for (int x = 0; x < hanoi_page; x++) {
 			if (trace->hanoistate[x] == translate[x])ch++;
 		}
-		if (ch == hanoi_page) return true;  // ¾î¶² ³ëµå¿Í ÀüºÎ ÀÏÄ¡ÇÑ´Ù¸é
+		if (ch == hanoi_page) return true;  // ì–´ë–¤ ë…¸ë“œì™€ ì „ë¶€ ì¼ì¹˜í•œë‹¤ë©´
 	}
-	return false;  //°°Àº°Ô ¾ø´Ù¸é false
+	return false;  //ê°™ì€ê²Œ ì—†ë‹¤ë©´ false
 }
 
-bool upgradehanoi::check(int quenum) {  // ¸ñÇ¥ »óÅÂ¿¡ µµ´ÞÇß´ÂÁö °Ë»çÇÏ´Â ÇÔ¼ö
+bool upgradehanoi::check(int quenum) {  // ëª©í‘œ ìƒíƒœì— ë„ë‹¬í–ˆëŠ”ì§€ ê²€ì‚¬í•˜ëŠ” í•¨ìˆ˜
 	int ck = 0;
 	int to;
 
@@ -181,7 +181,41 @@ bool upgradehanoi::check(int quenum) {  // ¸ñÇ¥ »óÅÂ¿¡ µµ´ÞÇß´ÂÁö °Ë»çÇÏ´Â ÇÔ¼ö
 	return true;
 }
 
-void upgradehanoi::answer(int quenum) {  // ¸ñÇ¥¿¡ µµ´ÞÇÑ °úÁ¤À» Ãâ·ÂÇÏ°í ³ëµå¸¦ ÇØÁ¦ÇØÁÖ´Â ÇÔ¼ö
+void upgradehanoi::glist(int quenum) {
+	hanoin** liststack;
+	int stacksize = 1;
+
+	buf = start;
+	while (1) {  //bufì— quenumì— í•´ë‹¹í•˜ëŠ” ë…¸ë“œ ì €ìž¥.
+		if (buf->stateindex == quenum) break;
+		else
+			buf = buf->nextnode;
+	}
+	liststack = (hanoin**)calloc(1, sizeof(hanoin*));
+
+	while (1) {//ì¡°ìƒì„ ê±°ìŠ¬ëŸ¬ ì˜¬ë¼ê°€ë©´ì„œ ìŠ¤íƒì— ë…¸ë“œì˜ ì‹œìž‘ì£¼ì†Œë¥¼ ì €ìž¥
+		liststack = (hanoin**)realloc(liststack, sizeof(hanoin*) * stacksize);
+		// ìŠ¤íƒ í™•ìž¥
+
+		liststack[stacksize - 1] = buf;
+		// ìŠ¤íƒì˜ ë(top)ì— ë…¸ë“œì˜ ì‹œìž‘ì£¼ì†Œ ì €ìž¥ (0~[stacksize-1])
+
+		if (buf->ancestor == NULL)break;  // ìƒìœ„ë…¸ë“œ ì¡´ìž¬ì—¬ë¶€ ê²€ì‚¬
+		buf = buf->ancestor;  // ìƒìœ„ë…¸ë“œê°€ ì—†ë‹¤ë©´ ê·¸ ë…¸ë“œë¡œ(ìƒìœ„ë…¸ë“œë¡œ) ì´ë™
+		stacksize++;  // ìŠ¤íƒ ì‚¬ì´ì¦ˆ í‚¤ìš°ê¸°(topì´ë™)
+
+	}//end while
+
+	for (int h = (stacksize - 1); h >= 0; h--) {
+		cout << liststack[h]->stateindex << "ë²ˆì§¸ ë…¸ë“œ ";
+		for (int c = 0; c < hanoi_page; c++) {
+			cout << liststack[h]->hanoistate[c] << " ";
+		}
+		cout << endl;
+	}
+}
+
+void upgradehanoi::answer(int quenum) {  // ëª©í‘œì— ë„ë‹¬í•œ ê³¼ì •ì„ ì¶œë ¥í•˜ê³  ë…¸ë“œë¥¼ í•´ì œí•´ì£¼ëŠ” í•¨ìˆ˜
 	char code;
 	hanoin* delo;
 
@@ -191,33 +225,36 @@ void upgradehanoi::answer(int quenum) {  // ¸ñÇ¥¿¡ µµ´ÞÇÑ °úÁ¤À» Ãâ·ÂÇÏ°í ³ëµå¸¦
 	cout << endl << endl;
 
 	for (int u = 0; u < 3; u++) {
-		cout << u + 1 << "¹ø Å¾ ";
+		cout << u + 1 << "ë²ˆ íƒ‘ ";
 		for (int i = 1; i <= hanoi_size; i++) {
 			cout << buf->hanoistate[u*(hanoi_size+1)+i] << " ";
 		}
 		cout << endl;
 	}
 
-	cout <<"¾Æ¹« Å°³ª ÀÔ·Â ½Ã Á¾·á, Á¶»óÃßÀû - t ";
+	cout <<"ì•„ë¬´ í‚¤ë‚˜ ìž…ë ¥ ì‹œ ì¢…ë£Œ, ì¡°ìƒì¶”ì  - t, ì¡°ìƒë¦¬ìŠ¤íŠ¸ ì¶”ì¶œ - g ";
 	cin >> code;
 	switch (code) {
 	case('t'):
 		while (buf->ancestor != NULL) {
-			cout<<buf->stateindex<<"¹øÂ° ³ëµå ";
+			cout<<buf->stateindex<<"ë²ˆì§¸ ë…¸ë“œ ";
 			for (int z = 0; z < hanoi_page; z++) {
 				cout << buf->hanoistate[z] << " ";
 			}
 			cout << endl << endl;
 			buf = buf->ancestor;
 		}
-		cout << buf->stateindex << "¹øÂ° ³ëµå ";
+		cout << buf->stateindex << "ë²ˆì§¸ ë…¸ë“œ ";
 		for (int x = 0; x < hanoi_page; x++) {
 			cout << start->hanoistate[x] << " ";
 		}
 		break;
 
+	case('g'):
+		glist(quenum);  // gë¦¬ìŠ¤íŠ¸ ì¶”ì¶œ í•¨ìˆ˜
+
 	default:
-		cout << "Á¾·á";
+		cout << "ì¢…ë£Œ";
 		ptr = start;
 		while (ptr) {
 			delo = ptr;
