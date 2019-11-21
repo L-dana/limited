@@ -152,16 +152,17 @@ void upgradehanoi::generate(int ele[3], int from) {
 
 bool upgradehanoi::pedigree(int * translate) {
 
-	hanoin* trace=buf;  //임시주소변수
+	hanoin* trace=start;  //임시주소변수
 	//cout << trace << " ---- " << buf <<endl;  0
 	int ch = 0;  //같은것의 개수
 	while (1) {
-		if (trace->ancestor == NULL)break;
-		trace = trace->ancestor;
+		if (trace->nextnode == NULL)break;
 		for (int x = 0; x < hanoi_page; x++) {
 			if (trace->hanoistate[x] == translate[x])ch++;
 		}
 		if (ch == hanoi_page) return true;  // 어떤 노드와 전부 일치한다면
+		trace = trace->nextnode;
+		ch=0;
 	}
 	return false;  //같은게 없다면 false
 }
